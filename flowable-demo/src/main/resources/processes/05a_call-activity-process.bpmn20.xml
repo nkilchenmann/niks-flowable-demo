@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions
+        xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+        xmlns:flowable="http://flowable.org/bpmn"
+        targetNamespace="Examples">
+
+    <process id="callActivityProcess" name="Call Activity Process">
+        <startEvent id="mainProcessStartEvent"/>
+
+        <sequenceFlow sourceRef="mainProcessStartEvent" targetRef="mainProcessUserTask"/>
+        <userTask id="mainProcessUserTask" name="Main Process User Task"/>
+
+        <sequenceFlow sourceRef="mainProcessUserTask" targetRef="callDummySubprocess"/>
+        <callActivity id="callDummySubprocess" name="Dummy Subprocess" calledElement="dummySubprocess"/>
+
+        <sequenceFlow sourceRef="callDummySubprocess" targetRef="mainProcessEndEvent"/>
+        <endEvent id="mainProcessEndEvent"/>
+    </process>
+</definitions>

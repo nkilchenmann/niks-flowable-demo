@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions
+        xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+        xmlns:flowable="http://flowable.org/bpmn"
+        targetNamespace="Examples">
+
+    <process id="dummySubprocess" name="Dummy Subprocess">
+        <startEvent id="dummySubprocessStartEvent"/>
+
+        <sequenceFlow sourceRef="dummySubprocessStartEvent" targetRef="dummySubprocessServiceTask"/>
+        <serviceTask id="dummySubprocessServiceTask" name="Dummy Subprocess Service Task"
+                     flowable:expression="${serviceTaskExpression.logFromDummySubprocess()}"/>
+
+        <sequenceFlow sourceRef="dummySubprocessServiceTask" targetRef="dummySubprocessEndEvent"/>
+        <endEvent id="dummySubprocessEndEvent"/>
+    </process>
+</definitions>

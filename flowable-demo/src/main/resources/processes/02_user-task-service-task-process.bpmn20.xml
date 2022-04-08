@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions
+        xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+        xmlns:flowable="http://flowable.org/bpmn"
+        targetNamespace="Examples">
+
+    <process id="userTaskServiceTaskProcess" name="User Task Service Task Process">
+        <startEvent id="startEvent"/>
+
+        <sequenceFlow sourceRef="startEvent" targetRef="userTask"/>
+        <userTask id="userTask" name="User Task"/>
+
+        <sequenceFlow sourceRef="userTask" targetRef="serviceTaskClassDelegate"/>
+        <serviceTask id="serviceTaskClassDelegate" name="Service Task Class Delegate"
+                     flowable:class="com.example.flowabledemo.delegates.ServiceTaskClassDelegate"/>
+
+        <sequenceFlow sourceRef="serviceTaskClassDelegate" targetRef="serviceTaskDelegateExpressionBean"/>
+        <serviceTask id="serviceTaskDelegateExpressionBean" name="Service Task Delegate Expression Bean"
+                     flowable:delegateExpression="${serviceTaskDelegateExpression}"/>
+
+        <sequenceFlow sourceRef="serviceTaskDelegateExpressionBean" targetRef="serviceTaskExpressionBean"/>
+        <serviceTask id="serviceTaskExpressionBean" name="Service Task Expression Bean"
+                     flowable:expression="${serviceTaskExpression.logMessage()}"/>
+
+        <sequenceFlow sourceRef="serviceTaskExpressionBean" targetRef="endEvent"/>
+        <endEvent id="endEvent"/>
+    </process>
+
+</definitions>

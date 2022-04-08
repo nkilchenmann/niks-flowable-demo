@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions
+        xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+        xmlns:flowable="http://flowable.org/bpmn"
+        targetNamespace="Examples">
+
+    <process id="errorServiceTaskProcess" name="Error Service Task Process">
+        <startEvent id="startEvent"/>
+
+        <sequenceFlow sourceRef="startEvent" targetRef="userTask"/>
+        <userTask id="userTask" name="User Task"/>
+        <boundaryEvent id="timeoutError" attachedToRef="userTask">
+            <timerEventDefinition>
+                <timeDuration>PT1M</timeDuration> <!--ISO 8601 format-->
+                <!--Eine Zeitspanne wird in dem Format [Startdatum]P[YY][MM][WW][DD][T[hH][mM][s[.f]S]] dargestellt.
+                Das P zeigt dabei als anführender Informationsbuchstabe an, dass eine Zeitspanne (englisch period) folgt.
+                Zeitspannen, die einen Uhrzeitanteil enthalten, werden wie in der Angabe des Anfangszeitpunktes durch ein T abgegrenzt.
+                Daher sind die Angaben der Monate und Minuten (M) unterscheidbar.
+                Für die Formatierung des Anfangszeitpunktes gelten dieselben Regeln wie für die normale Datumsangabe.-->
+            </timerEventDefinition>
+        </boundaryEvent>
+
+        <sequenceFlow sourceRef="timeoutError" targetRef="timeoutServiceTask"/>
+        <serviceTask id="timeoutServiceTask" name="Timeout Service Task"
+                     flowable:expression="${serviceTaskExpression.timeout()}"/>
+
+        <sequenceFlow sourceRef="userTask" targetRef="errorServiceTask"/>
+        <serviceTask id="errorServiceTask" name="Error Service Task"
+                     flowable:expression="${serviceTaskExpression.throwError()}"/>
+        <boundaryEvent id="sendMailError" attachedToRef="errorServiceTask">
+            <errorEventDefinition
+                    errorRef="error1"/><!--If an errorRef is provided and it references an existing error, the boundary event will only catch errors with the same error code.-->
+            <!--<errorEventDefinition/> If errorRef is omitted, the boundary error event will catch any error event, regardless of the errorCode of the error.-->
+        </boundaryEvent>
+
+        <sequenceFlow sourceRef="sendMailError" targetRef="sendErrorEmail"/>
+        <serviceTask id="sendErrorEmail" name="Send Error Email"
+                     flowable:expression="#{serviceTaskExpression.sendErrorEmail()}"/>
+
+        <sequenceFlow sourceRef="timeoutServiceTask" targetRef="endEvent"/>
+        <sequenceFlow sourceRef="errorServiceTask" targetRef="endEvent"/>
+        <sequenceFlow sourceRef="sendErrorEmail" targetRef="endEvent"/>
+
+        <endEvent id="endEvent"/>
+    </process>
+
+    <error id="error1" errorCode="99999"></error>
+    <!--If an errorRef is provided, but no error is defined in the BPMN 2.0 file, then the errorRef is used as errorCode (similar for with error end events).-->
+
+</definitions>
