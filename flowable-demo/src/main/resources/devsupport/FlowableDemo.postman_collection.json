@@ -1,0 +1,342 @@
+{
+	"info": {
+		"_postman_id": "af697a9b-adb3-40d3-8c85-cde39b1458fd",
+		"name": "FlowableDemo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "01 - Start process (parallelUserTaskProcess)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"var processInstanceId = jsonData.processInstanceId;\r",
+							"\r",
+							"pm.environment.set(\"processInstanceId\",processInstanceId);\r",
+							"\r",
+							"console.log(\"processInstanceId: \" + processInstanceId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8888/process/parallelUserTaskProcess",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"process",
+						"parallelUserTaskProcess"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "02 - Start process (userTaskServiceTaskProcess)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"var processInstanceId = jsonData.processInstanceId;\r",
+							"\r",
+							"pm.environment.set(\"processInstanceId\",processInstanceId);\r",
+							"\r",
+							"console.log(\"processInstanceId: \" + processInstanceId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8888/process/userTaskServiceTaskProcess",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"process",
+						"userTaskServiceTaskProcess"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "03 - Start process (exclusiveUserTaskProcess)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"var processInstanceId = jsonData.processInstanceId;\r",
+							"\r",
+							"pm.environment.set(\"processInstanceId\",processInstanceId);\r",
+							"\r",
+							"console.log(\"processInstanceId: \" + processInstanceId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8888/process/exclusiveUserTaskProcess",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"process",
+						"exclusiveUserTaskProcess"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "04 - Start process (errorServiceTaskProcess)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"var processInstanceId = jsonData.processInstanceId;\r",
+							"\r",
+							"pm.environment.set(\"processInstanceId\",processInstanceId);\r",
+							"\r",
+							"console.log(\"processInstanceId: \" + processInstanceId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8888/process/errorServiceTaskProcess",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"process",
+						"errorServiceTaskProcess"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "05 - Start process (callActivityProcess)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"var processInstanceId = jsonData.processInstanceId;\r",
+							"\r",
+							"pm.environment.set(\"processInstanceId\",processInstanceId);\r",
+							"\r",
+							"console.log(\"processInstanceId: \" + processInstanceId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8888/process/callActivityProcess",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"process",
+						"callActivityProcess"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get active tasks",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"var taskId = jsonData[0].taskId;\r",
+							"\r",
+							"pm.environment.set(\"taskId\", taskId);\r",
+							"\r",
+							"console.log(\"taskId: \" + taskId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8888/process/{{processInstanceId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"process",
+						"{{processInstanceId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Complete task (without query param)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8888/process/{{processInstanceId}}/{{taskId}}/complete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"process",
+						"{{processInstanceId}}",
+						"{{taskId}}",
+						"complete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Complete task (fact)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8888/process/{{processInstanceId}}/{{taskId}}/complete?jokeOrFact=fact",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"process",
+						"{{processInstanceId}}",
+						"{{taskId}}",
+						"complete"
+					],
+					"query": [
+						{
+							"key": "jokeOrFact",
+							"value": "fact"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Complete task (joke)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8888/process/{{processInstanceId}}/{{taskId}}/complete?jokeOrFact=joke",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"process",
+						"{{processInstanceId}}",
+						"{{taskId}}",
+						"complete"
+					],
+					"query": [
+						{
+							"key": "jokeOrFact",
+							"value": "joke"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
