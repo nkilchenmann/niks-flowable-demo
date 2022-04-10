@@ -3,9 +3,11 @@ package com.example.flowabledemo.delegates;
 import org.flowable.engine.RuntimeService;
 import org.flowable.engine.TaskService;
 import org.flowable.engine.delegate.BpmnError;
-import org.flowable.engine.runtime.Execution;
+import org.flowable.engine.delegate.DelegateExecution;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Map;
 
 public class ServiceTaskExpression {
     @Autowired
@@ -50,5 +52,22 @@ public class ServiceTaskExpression {
 
     public void tellFact() {
         System.out.println("The Philippines consists of 7,641 islands.");
+    }
+
+    public void logCardinalityFixedNumberOfExecutions(DelegateExecution execution) {
+        System.out.println("Hello from Fixed Number of Executions Cardinality Service Task");
+    }
+
+    public void logCardinalityVariableNumberOfExecutions(DelegateExecution execution) {
+        Map<String, Object> variables = execution.getVariables();
+        System.out.println("Hello from Variable Number of Executions Cardinality Service Task");
+        System.out.println("High number: " + variables.get("highNumber").toString());
+        System.out.println("Low Number: " + variables.get("lowNumber").toString());
+    }
+
+    public void logCardinalityCollectionVariable(DelegateExecution execution) {
+        Map<String, Object> variables = execution.getVariables();
+        System.out.println("Hello from Collection Variable Cardinality Service Task");
+        System.out.println("List item: " + variables.get("testItem"));
     }
 }

@@ -9,6 +9,7 @@ import org.flowable.task.api.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,7 +58,15 @@ public class ProcessController {
             variables.put("jokeOrFact", jokeOrFact);
             taskService.complete(taskId, variables);
         } else {
-            taskService.complete(taskId);
+            Map<String, Object> processVariableMap = new HashMap<>();
+            List<String> testList = new ArrayList<>();
+            testList.add("hallo");
+            testList.add("velo");
+
+            processVariableMap.put("testList", testList);
+            processVariableMap.put("highNumber",5);
+            processVariableMap.put("lowNumber", 3);
+            taskService.complete(taskId, processVariableMap);
         }
 
         return getCurrentTaskListByProcessInstanceId(processInstanceId);

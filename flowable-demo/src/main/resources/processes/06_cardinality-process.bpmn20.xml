@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions
+        xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+        xmlns:flowable="http://flowable.org/bpmn"
+        targetNamespace="Examples">
+
+    <process id="cardinalityProcess" name="Cardinality Process">
+        <startEvent id="startEvent"/>
+
+        <sequenceFlow sourceRef="startEvent" targetRef="cardinalityUserTask"/>
+        <userTask id="cardinalityUserTask" name="Cardinality User Task"/>
+
+        <sequenceFlow sourceRef="cardinalityUserTask" targetRef="cardinalityServiceTaskFixedNumberOfExecutions"/>
+        <serviceTask id="cardinalityServiceTaskFixedNumberOfExecutions"
+                     name="Cardinality Service Task Fixed Number of Executions"
+                     flowable:expression="${serviceTaskExpression.logCardinalityFixedNumberOfExecutions(execution)}">
+            <multiInstanceLoopCharacteristics isSequential="true">
+                <loopCardinality>5</loopCardinality>
+            </multiInstanceLoopCharacteristics>
+        </serviceTask>
+
+        <sequenceFlow sourceRef="cardinalityServiceTaskFixedNumberOfExecutions"
+                      targetRef="cardinalityServiceTaskVariableNumberOfExecutions"/>
+        <serviceTask id="cardinalityServiceTaskVariableNumberOfExecutions"
+                     name="Cardinality Service Task Variable Number of Executions"
+                     flowable:expression="${serviceTaskExpression.logCardinalityVariableNumberOfExecutions(execution)}">
+            <multiInstanceLoopCharacteristics isSequential="true">
+                <loopCardinality>${highNumber - lowNumber}</loopCardinality>
+            </multiInstanceLoopCharacteristics>
+        </serviceTask>
+
+        <sequenceFlow sourceRef="cardinalityServiceTaskVariableNumberOfExecutions"
+                      targetRef="cardinalityServiceTaskCollectionVariable"/>
+        <serviceTask id="cardinalityServiceTaskCollectionVariable" name="Cardinality Service Task Collection Variable"
+                     flowable:expression="${serviceTaskExpression.logCardinalityCollectionVariable(execution)}">
+            <multiInstanceLoopCharacteristics isSequential="true" flowable:collection="testList"
+                                              flowable:elementVariable="testItem">
+            </multiInstanceLoopCharacteristics>
+
+        </serviceTask>
+
+        <sequenceFlow sourceRef="cardinalityServiceTaskCollectionVariable" targetRef="endEvent"/>
+        <endEvent id="endEvent"/>
+    </process>
+
+</definitions>
