@@ -23,8 +23,7 @@
                      flowable:expression="${serviceTaskExpression.tellFact()}"/>
 
         <sequenceFlow id="jokeSequenceFlow" sourceRef="jokeOrFactExclusiveGateway" targetRef="serviceTaskJoke">
-            <conditionExpression xsi:type="tFormalExpression"><![CDATA[${jokeOrFact == 'joke'}]]></conditionExpression>
-
+            <conditionExpression xsi:type="tFormalExpression">${jokeOrFact == 'joke'}</conditionExpression>
         </sequenceFlow>
         <serviceTask id="serviceTaskJoke" name="Service Task Joke"
                      flowable:expression="${serviceTaskExpression.tellJoke()}"/>

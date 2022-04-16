@@ -62,6 +62,7 @@ public class ProcessController {
             List<String> testList = new ArrayList<>();
             testList.add("hallo");
             testList.add("velo");
+            testList.add("ente");
 
             processVariableMap.put("testList", testList);
             processVariableMap.put("highNumber",5);
