@@ -265,7 +265,7 @@
 			"response": []
 		},
 		{
-			"name": "Complete task (without query param)",
+			"name": "Complete task",
 			"event": [
 				{
 					"listen": "test",
@@ -292,84 +292,6 @@
 						"{{processInstanceId}}",
 						"{{taskId}}",
 						"complete"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Complete task (fact)",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8888/process/{{processInstanceId}}/{{taskId}}/complete?jokeOrFact=fact",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8888",
-					"path": [
-						"process",
-						"{{processInstanceId}}",
-						"{{taskId}}",
-						"complete"
-					],
-					"query": [
-						{
-							"key": "jokeOrFact",
-							"value": "fact"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Complete task (joke)",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8888/process/{{processInstanceId}}/{{taskId}}/complete?jokeOrFact=joke",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8888",
-					"path": [
-						"process",
-						"{{processInstanceId}}",
-						"{{taskId}}",
-						"complete"
-					],
-					"query": [
-						{
-							"key": "jokeOrFact",
-							"value": "joke"
-						}
 					]
 				}
 			},
