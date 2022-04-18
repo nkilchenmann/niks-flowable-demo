@@ -28,9 +28,53 @@ public class ProcessController {
 
     @PostMapping("/{processKey}")
     public ProcessDTO startProcessByKey(@PathVariable String processKey) {
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processKey);
-        ProcessDTO processDTO = new ProcessDTO(processInstance.getProcessInstanceId());
-        return processDTO;
+        switch (processKey) {
+            case "parallelUserTaskProcess":
+            case "userTaskServiceTaskProcess":
+            case "errorServiceTaskProcess":
+            case "callActivityProcess": {
+                System.out.println("Starting a " + processKey + " process");
+                ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processKey);
+                ProcessDTO processDTO = new ProcessDTO(processInstance.getProcessInstanceId());
+                return processDTO;
+            }
+
+            case "exclusiveUserTaskProcess": {
+                System.out.println("Starting a " + processKey + " process");
+                Map<String, Object> processVariables = new HashMap<>();
+                processVariables.put("jokeOrFact", "joke");
+                //processVariables.put("jokeOrFact", "anythingElseThatTriggersTheDefaultFlow");
+
+                ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processKey, processVariables);
+                ProcessDTO processDTO = new ProcessDTO(processInstance.getProcessInstanceId());
+                return processDTO;
+            }
+
+            case "cardinalityProcess": {
+                System.out.println("Starting a " + processKey + " process");
+
+                Map<String, Object> processVariables = new HashMap<>();
+
+                // Example: Cardinality with list elements
+                List<String> fruitList = new ArrayList<>();
+                fruitList.add("apple");
+                fruitList.add("banana");
+                processVariables.put("testList", fruitList);
+
+                // Example: Cardinality with set boundaries
+                processVariables.put("highNumber", 5);
+                processVariables.put("lowNumber", 3);
+
+                ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processKey, processVariables);
+                ProcessDTO processDTO = new ProcessDTO(processInstance.getProcessInstanceId());
+                return processDTO;
+            }
+
+            default: {
+                System.out.println("Not starting any process");
+                return null;
+            }
+        }
     }
 
     @GetMapping("/{processInstanceId}")
@@ -50,26 +94,9 @@ public class ProcessController {
     @PostMapping("/{processInstanceId}/{taskId}/complete")
     public List<TaskDTO> completeTaskById(
             @PathVariable String processInstanceId,
-            @PathVariable String taskId,
-            @RequestParam(required = false) String jokeOrFact) {
+            @PathVariable String taskId) {
 
-        if (jokeOrFact != null) {
-            Map<String, Object> variables = new HashMap<>();
-            variables.put("jokeOrFact", jokeOrFact);
-            taskService.complete(taskId, variables);
-        } else {
-            Map<String, Object> processVariableMap = new HashMap<>();
-            List<String> testList = new ArrayList<>();
-            testList.add("hallo");
-            testList.add("velo");
-            testList.add("ente");
-
-            processVariableMap.put("testList", testList);
-            processVariableMap.put("highNumber",5);
-            processVariableMap.put("lowNumber", 3);
-            taskService.complete(taskId, processVariableMap);
-        }
-
+        taskService.complete(taskId);
         return getCurrentTaskListByProcessInstanceId(processInstanceId);
     }
 }
