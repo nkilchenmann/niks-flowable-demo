@@ -42,8 +42,8 @@ public class ServiceTaskExpression {
         System.out.println("Service Task (Dummy Subprocess)");
     }
 
-    public void logProcessVariables(ProcessInstance processInstance) {
-        System.out.println(runtimeService.getVariables(processInstance.getProcessInstanceId()));
+    public void logProcessVariables(DelegateExecution execution) {
+        System.out.println(execution.getVariables().toString());
     }
 
     public void tellJoke() {
