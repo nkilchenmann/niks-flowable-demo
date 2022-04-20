@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class Config {
-    @Bean(name = "serviceTaskDelegateExpression") //TODO: comment to automatic naming of beans
+    @Bean(name = "serviceTaskDelegateExpression")
     public ServiceTaskDelegateExpression getServiceTaskDelegateExpression() {
         return new ServiceTaskDelegateExpression();
     }

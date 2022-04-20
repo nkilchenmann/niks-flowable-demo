@@ -42,8 +42,8 @@ public class ProcessController {
             case "exclusiveUserTaskProcess": {
                 System.out.println("Starting a " + processKey + " process");
                 Map<String, Object> processVariables = new HashMap<>();
-                processVariables.put("jokeOrFact", "joke");
-                //processVariables.put("jokeOrFact", "anythingElseThatTriggersTheDefaultFlow");
+                //processVariables.put("jokeOrFact", "joke");
+                processVariables.put("jokeOrFact", "anythingElseThatTriggersTheDefaultFlow");
 
                 ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processKey, processVariables);
                 ProcessDTO processDTO = new ProcessDTO(processInstance.getProcessInstanceId());
