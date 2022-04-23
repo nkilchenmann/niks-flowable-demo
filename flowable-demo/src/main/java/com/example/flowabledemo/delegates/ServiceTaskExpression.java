@@ -7,6 +7,8 @@ import org.flowable.engine.delegate.DelegateExecution;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class ServiceTaskExpression {
@@ -69,5 +71,17 @@ public class ServiceTaskExpression {
         Map<String, Object> variables = execution.getVariables();
         System.out.println("Hello from Collection Variable Cardinality Service Task");
         System.out.println("List item: " + variables.get("testItem"));
+
+        if (variables.get("updatedTestList") == null) {
+            List<String> updatedFruitList = new ArrayList<>();
+            updatedFruitList.add(variables.get("testItem").toString() + " updated");
+            execution.setVariable("updatedTestList", updatedFruitList);
+
+        } else {
+            List<String> updatedFruitList = (List<String>) variables.get("updatedTestList");
+            updatedFruitList.add(variables.get("testItem").toString() + " updated");
+            execution.setVariable("updatedTestList", updatedFruitList);
+
+        }
     }
 }

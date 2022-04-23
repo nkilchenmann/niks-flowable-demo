@@ -36,10 +36,13 @@
             <multiInstanceLoopCharacteristics isSequential="true" flowable:collection="testList"
                                               flowable:elementVariable="testItem">
             </multiInstanceLoopCharacteristics>
-
         </serviceTask>
 
-        <sequenceFlow sourceRef="cardinalityServiceTaskCollectionVariable" targetRef="endEvent"/>
+        <sequenceFlow sourceRef="cardinalityServiceTaskCollectionVariable" targetRef="logVariablesServiceTask"/>
+        <serviceTask id="logVariablesServiceTask" name="Service Task Log Variables"
+                     flowable:expression="${serviceTaskExpression.logProcessVariables(execution)}"/>
+
+        <sequenceFlow sourceRef="logVariablesServiceTask" targetRef="endEvent"/>
         <endEvent id="endEvent"/>
     </process>
 
