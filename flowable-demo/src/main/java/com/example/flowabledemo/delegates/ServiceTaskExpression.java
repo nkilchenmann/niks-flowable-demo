@@ -45,7 +45,7 @@ public class ServiceTaskExpression {
     }
 
     public void logProcessVariables(DelegateExecution execution) {
-        System.out.println(execution.getVariables().toString());
+        System.out.println("Process Variables: " + execution.getVariables().toString());
     }
 
     public void tellJoke() {
@@ -83,5 +83,9 @@ public class ServiceTaskExpression {
             execution.setVariable("updatedTestList", updatedFruitList);
 
         }
+    }
+
+    public void writeProcessVariable(DelegateExecution execution) {
+        execution.setVariable("myVariableInSubprocess", "Magandang Hapon");
     }
 }

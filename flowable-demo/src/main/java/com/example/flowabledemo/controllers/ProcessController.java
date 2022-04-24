@@ -69,6 +69,16 @@ public class ProcessController {
                 ProcessDTO processDTO = new ProcessDTO(processInstance.getProcessInstanceId());
                 return processDTO;
             }
+            case "variablesInSubprocessProcess": {
+                System.out.println("Starting a " + processKey + " process");
+
+                Map<String, Object> processVariables = new HashMap<>();
+                processVariables.put("myVariableInMainProcess","Guten Tag");
+
+                ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processKey,processVariables);
+                ProcessDTO processDTO = new ProcessDTO(processInstance.getProcessInstanceId());
+                return processDTO;
+            }
 
             default: {
                 System.out.println("Not starting any process");
