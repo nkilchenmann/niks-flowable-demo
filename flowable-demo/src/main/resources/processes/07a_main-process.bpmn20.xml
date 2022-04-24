@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions
+        xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+        xmlns:flowable="http://flowable.org/bpmn"
+        targetNamespace="Examples">
+
+    <process id="mainProcess" name="Main Process">
+        <startEvent id="startEvent"/>
+
+        <sequenceFlow sourceRef="startEvent" targetRef="userTask1"/>
+        <userTask id="userTask1" name="User Task 1"/>
+
+        <sequenceFlow sourceRef="userTask1" targetRef="logProcessVariablesServiceTask"/>
+        <serviceTask id="logProcessVariablesServiceTask" name="Log Process Variables"
+                     flowable:expression="${serviceTaskExpression.logProcessVariables(execution)}"/>
+
+        <sequenceFlow sourceRef="logProcessVariablesServiceTask" targetRef="callPassedVariablesSubprocess"/>
+        <callActivity id="callPassedVariablesSubprocess" name="Passed Variables in Subprocess"
+                      calledElement="passedVariablesSubprocess">
+            <extensionElements>
+                <flowable:in source="mainProcessVariable" target="subprocessVariable"/>
+                <flowable:out source="subprocessVariable" target="mainProcessVariable"/>
+            </extensionElements>
+        </callActivity>
+
+        <sequenceFlow sourceRef="callPassedVariablesSubprocess" targetRef="logProcessVariablesServiceTask2"/>
+        <serviceTask id="logProcessVariablesServiceTask2" name="Log Process Variables"
+                     flowable:expression="${serviceTaskExpression.logProcessVariables(execution)}"/>
+
+        <sequenceFlow sourceRef="logProcessVariablesServiceTask2" targetRef="callInheritedVariablesSubprocess"/>
+        <callActivity id="callInheritedVariablesSubprocess" name="Inherited Variables in Subprocess"
+                      calledElement="inheritedVariablesSubprocess" flowable:inheritVariables="true"/>
+
+        <sequenceFlow sourceRef="callInheritedVariablesSubprocess" targetRef="logProcessVariablesServiceTask3"/>
+        <serviceTask id="logProcessVariablesServiceTask3" name="Log Process Variables"
+                     flowable:expression="${serviceTaskExpression.logProcessVariables(execution)}"/>
+
+        <sequenceFlow sourceRef="logProcessVariablesServiceTask3" targetRef="endEvent"/>
+        <endEvent id="endEvent"/>
+    </process>
+
+</definitions>

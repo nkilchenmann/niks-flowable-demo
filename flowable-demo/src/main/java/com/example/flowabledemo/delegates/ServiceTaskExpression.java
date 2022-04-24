@@ -4,6 +4,7 @@ import org.flowable.engine.RuntimeService;
 import org.flowable.engine.TaskService;
 import org.flowable.engine.delegate.BpmnError;
 import org.flowable.engine.delegate.DelegateExecution;
+import org.flowable.engine.impl.persistence.entity.ExecutionEntityImpl;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -45,7 +46,8 @@ public class ServiceTaskExpression {
     }
 
     public void logProcessVariables(DelegateExecution execution) {
-        System.out.println("Process Variables: " + execution.getVariables().toString());
+        String executionEntity = ((ExecutionEntityImpl) execution).getProcessDefinitionKey();
+        System.out.println(executionEntity + ": " + execution.getVariables().toString());
     }
 
     public void tellJoke() {
@@ -85,7 +87,17 @@ public class ServiceTaskExpression {
         }
     }
 
-    public void writeProcessVariable(DelegateExecution execution) {
-        execution.setVariable("myVariableInSubprocess", "Magandang Hapon");
+    public void writeProcessVariablePassedVariablesSubprocess(DelegateExecution execution) {
+        String newString = "Magandang Gabi";
+        String executionEntity = ((ExecutionEntityImpl) execution).getProcessDefinitionKey();
+        System.out.println(executionEntity + ": Setting process variable 'subprocessVariable' to: " + newString);
+        execution.setVariable("subprocessVariable", newString);
+    }
+
+    public void writeProcessVariableInheritedVariablesSubprocess(DelegateExecution execution) {
+        String newString = "Good Evening";
+        String executionEntity = ((ExecutionEntityImpl) execution).getProcessDefinitionKey();
+        System.out.println(executionEntity + ": Setting process variable 'mainProcessVariable' to: " + newString);
+        execution.setVariable("mainProcessVariable", newString);
     }
 }

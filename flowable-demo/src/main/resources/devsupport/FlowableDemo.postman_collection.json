@@ -250,7 +250,7 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8888/process/variablesInSubprocessProcess",
+					"raw": "http://localhost:8888/process/mainProcess",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -258,7 +258,7 @@
 					"port": "8888",
 					"path": [
 						"process",
-						"variablesInSubprocessProcess"
+						"mainProcess"
 					]
 				}
 			},

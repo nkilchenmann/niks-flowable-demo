@@ -4,7 +4,7 @@
         xmlns:flowable="http://flowable.org/bpmn"
         targetNamespace="Examples">
 
-    <process id="variablesInSubprocessSubprocess" name="Variables in Subprocess Subprocess">
+    <process id="inheritedVariablesSubprocess" name="Inherited Variables in Subprocess">
         <startEvent id="startEvent"/>
 
         <sequenceFlow sourceRef="startEvent" targetRef="logProcessVariablesServiceTask"/>
@@ -13,9 +13,13 @@
 
         <sequenceFlow sourceRef="logProcessVariablesServiceTask" targetRef="writeVariable"/>
         <serviceTask id="writeVariable" name="Write Variable"
-                     flowable:expression="${serviceTaskExpression.writeProcessVariable(execution)}"/>
+                     flowable:expression="${serviceTaskExpression.writeProcessVariableInheritedVariablesSubprocess(execution)}"/>
 
-        <sequenceFlow sourceRef="writeVariable" targetRef="endEvent"/>
+        <sequenceFlow sourceRef="logProcessVariablesServiceTask" targetRef="logProcessVariablesServiceTask2"/>
+        <serviceTask id="logProcessVariablesServiceTask2" name="Log Process Variables"
+                     flowable:expression="${serviceTaskExpression.logProcessVariables(execution)}"/>
+
+        <sequenceFlow sourceRef="logProcessVariablesServiceTask2" targetRef="endEvent"/>
         <endEvent id="endEvent"/>
     </process>
 

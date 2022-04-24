@@ -69,11 +69,11 @@ public class ProcessController {
                 ProcessDTO processDTO = new ProcessDTO(processInstance.getProcessInstanceId());
                 return processDTO;
             }
-            case "variablesInSubprocessProcess": {
+            case "mainProcess": {
                 System.out.println("Starting a " + processKey + " process");
 
                 Map<String, Object> processVariables = new HashMap<>();
-                processVariables.put("myVariableInMainProcess","Guten Tag");
+                processVariables.put("mainProcessVariable","Guten Abend");
 
                 ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processKey,processVariables);
                 ProcessDTO processDTO = new ProcessDTO(processInstance.getProcessInstanceId());
