@@ -265,6 +265,43 @@
 			"response": []
 		},
 		{
+			"name": "08 - Start process (uelExperimentalProcess)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"var processInstanceId = jsonData.processInstanceId;\r",
+							"\r",
+							"pm.environment.set(\"processInstanceId\",processInstanceId);\r",
+							"\r",
+							"console.log(\"processInstanceId: \" + processInstanceId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8888/process/uelExperimentalProcess",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"process",
+						"uelExperimentalProcess"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get active tasks",
 			"event": [
 				{

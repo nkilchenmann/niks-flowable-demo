@@ -32,7 +32,8 @@ public class ProcessController {
             case "parallelUserTaskProcess":
             case "userTaskServiceTaskProcess":
             case "errorServiceTaskProcess":
-            case "callActivityProcess": {
+            case "callActivityProcess":
+            case "uelExperimentalProcess": {
                 System.out.println("Starting a " + processKey + " process");
                 ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processKey);
                 ProcessDTO processDTO = new ProcessDTO(processInstance.getProcessInstanceId());
@@ -73,9 +74,9 @@ public class ProcessController {
                 System.out.println("Starting a " + processKey + " process");
 
                 Map<String, Object> processVariables = new HashMap<>();
-                processVariables.put("mainProcessVariable","Guten Abend");
+                processVariables.put("mainProcessVariable", "Guten Abend");
 
-                ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processKey,processVariables);
+                ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processKey, processVariables);
                 ProcessDTO processDTO = new ProcessDTO(processInstance.getProcessInstanceId());
                 return processDTO;
             }

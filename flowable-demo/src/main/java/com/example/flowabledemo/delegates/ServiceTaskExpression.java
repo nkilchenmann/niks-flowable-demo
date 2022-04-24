@@ -45,9 +45,8 @@ public class ServiceTaskExpression {
         System.out.println("Service Task (Dummy Subprocess)");
     }
 
-    public void logProcessVariables(DelegateExecution execution) {
-        String executionEntity = ((ExecutionEntityImpl) execution).getProcessDefinitionKey();
-        System.out.println(executionEntity + ": " + execution.getVariables().toString());
+    public void logProcessVariables(ExecutionEntityImpl execution) {
+        System.out.println(execution.getProcessDefinitionKey() + ": " + execution.getVariables().toString());
     }
 
     public void tellJoke() {
@@ -58,18 +57,18 @@ public class ServiceTaskExpression {
         System.out.println("The Philippines consists of 7,641 islands.");
     }
 
-    public void logCardinalityFixedNumberOfExecutions(DelegateExecution execution) {
+    public void logCardinalityFixedNumberOfExecutions(ExecutionEntityImpl execution) {
         System.out.println("Hello from Fixed Number of Executions Cardinality Service Task");
     }
 
-    public void logCardinalityVariableNumberOfExecutions(DelegateExecution execution) {
+    public void logCardinalityVariableNumberOfExecutions(ExecutionEntityImpl execution) {
         Map<String, Object> variables = execution.getVariables();
         System.out.println("Hello from Variable Number of Executions Cardinality Service Task");
         System.out.println("High number: " + variables.get("highNumber").toString());
         System.out.println("Low Number: " + variables.get("lowNumber").toString());
     }
 
-    public void logCardinalityCollectionVariable(DelegateExecution execution) {
+    public void logCardinalityCollectionVariable(ExecutionEntityImpl execution) {
         Map<String, Object> variables = execution.getVariables();
         System.out.println("Hello from Collection Variable Cardinality Service Task");
         System.out.println("List item: " + variables.get("testItem"));
@@ -87,17 +86,19 @@ public class ServiceTaskExpression {
         }
     }
 
-    public void writeProcessVariablePassedVariablesSubprocess(DelegateExecution execution) {
+    public void writeProcessVariablePassedVariablesSubprocess(ExecutionEntityImpl execution) {
         String newString = "Magandang Gabi";
-        String executionEntity = ((ExecutionEntityImpl) execution).getProcessDefinitionKey();
-        System.out.println(executionEntity + ": Setting process variable 'subprocessVariable' to: " + newString);
+        System.out.println(execution.getProcessDefinitionKey() + ": Setting process variable 'subprocessVariable' to: " + newString);
         execution.setVariable("subprocessVariable", newString);
     }
 
-    public void writeProcessVariableInheritedVariablesSubprocess(DelegateExecution execution) {
+    public void writeProcessVariableInheritedVariablesSubprocess(ExecutionEntityImpl execution) {
         String newString = "Good Evening";
-        String executionEntity = ((ExecutionEntityImpl) execution).getProcessDefinitionKey();
-        System.out.println(executionEntity + ": Setting process variable 'mainProcessVariable' to: " + newString);
+        System.out.println(execution.getProcessDefinitionKey() + ": Setting process variable 'mainProcessVariable' to: " + newString);
         execution.setVariable("mainProcessVariable", newString);
+    }
+
+    public void evaluateString(ExecutionEntityImpl execution, String testString) {
+        System.out.println(testString);
     }
 }
