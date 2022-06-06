@@ -7,14 +7,17 @@
     <process id="passedVariablesSubprocess" name="Passed Variables in Subprocess">
         <startEvent id="startEvent"/>
 
+        <!--Log process variables PASSED VARIABLES PROCESS-->
         <sequenceFlow sourceRef="startEvent" targetRef="logProcessVariablesServiceTask"/>
         <serviceTask id="logProcessVariablesServiceTask" name="Log Process Variables"
                      flowable:expression="${serviceTaskExpression.logProcessVariables(execution)}"/>
 
+        <!--Overwrite process variables PASSED VARIABLES PROCESS-->
         <sequenceFlow sourceRef="logProcessVariablesServiceTask" targetRef="writeVariable"/>
         <serviceTask id="writeVariable" name="Write Variable"
                      flowable:expression="${serviceTaskExpression.writeProcessVariablePassedVariablesSubprocess(execution)}"/>
 
+        <!--Log process variables PASSED VARIABLES PROCESS-->
         <sequenceFlow sourceRef="writeVariable" targetRef="logProcessVariablesServiceTask2"/>
         <serviceTask id="logProcessVariablesServiceTask2" name="Log Process Variables"
                      flowable:expression="${serviceTaskExpression.logProcessVariables(execution)}"/>

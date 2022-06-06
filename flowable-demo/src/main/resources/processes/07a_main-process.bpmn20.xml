@@ -10,10 +10,12 @@
         <sequenceFlow sourceRef="startEvent" targetRef="userTask1"/>
         <userTask id="userTask1" name="User Task 1"/>
 
+        <!--Log process variables MAIN PROCESS-->
         <sequenceFlow sourceRef="userTask1" targetRef="logProcessVariablesServiceTask"/>
         <serviceTask id="logProcessVariablesServiceTask" name="Log Process Variables"
                      flowable:expression="${serviceTaskExpression.logProcessVariables(execution)}"/>
 
+        <!--Call PASSED VARIABLES SUBPROCESS-->
         <sequenceFlow sourceRef="logProcessVariablesServiceTask" targetRef="callPassedVariablesSubprocess"/>
         <callActivity id="callPassedVariablesSubprocess" name="Passed Variables in Subprocess"
                       calledElement="passedVariablesSubprocess">
@@ -23,14 +25,18 @@
             </extensionElements>
         </callActivity>
 
+        <!--Log process variables MAIN PROCESS-->
         <sequenceFlow sourceRef="callPassedVariablesSubprocess" targetRef="logProcessVariablesServiceTask2"/>
         <serviceTask id="logProcessVariablesServiceTask2" name="Log Process Variables"
                      flowable:expression="${serviceTaskExpression.logProcessVariables(execution)}"/>
 
+        <!--Call INHERITED VARIABLES SUBPROCESS-->
+        <!--Demo inherit=false-->
         <sequenceFlow sourceRef="logProcessVariablesServiceTask2" targetRef="callInheritedVariablesSubprocess"/>
         <callActivity id="callInheritedVariablesSubprocess" name="Inherited Variables in Subprocess"
                       calledElement="inheritedVariablesSubprocess" flowable:inheritVariables="true"/>
 
+        <!--Log process variables MAIN PROCESS-->
         <sequenceFlow sourceRef="callInheritedVariablesSubprocess" targetRef="logProcessVariablesServiceTask3"/>
         <serviceTask id="logProcessVariablesServiceTask3" name="Log Process Variables"
                      flowable:expression="${serviceTaskExpression.logProcessVariables(execution)}"/>

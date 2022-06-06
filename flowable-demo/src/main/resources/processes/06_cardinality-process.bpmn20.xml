@@ -10,6 +10,7 @@
         <sequenceFlow sourceRef="startEvent" targetRef="cardinalityUserTask"/>
         <userTask id="cardinalityUserTask" name="Cardinality User Task"/>
 
+        <!--FIXED number of iterations-->
         <sequenceFlow sourceRef="cardinalityUserTask" targetRef="cardinalityServiceTaskFixedNumberOfExecutions"/>
         <serviceTask id="cardinalityServiceTaskFixedNumberOfExecutions"
                      name="Cardinality Service Task Fixed Number of Executions"
@@ -19,6 +20,7 @@
             </multiInstanceLoopCharacteristics>
         </serviceTask>
 
+        <!--Variable dependent number of iterations-->
         <sequenceFlow sourceRef="cardinalityServiceTaskFixedNumberOfExecutions"
                       targetRef="cardinalityServiceTaskVariableNumberOfExecutions"/>
         <serviceTask id="cardinalityServiceTaskVariableNumberOfExecutions"
@@ -29,6 +31,7 @@
             </multiInstanceLoopCharacteristics>
         </serviceTask>
 
+        <!--Variable dependent number of iterations-->
         <sequenceFlow sourceRef="cardinalityServiceTaskVariableNumberOfExecutions"
                       targetRef="cardinalityServiceTaskCollectionVariable"/>
         <serviceTask id="cardinalityServiceTaskCollectionVariable" name="Cardinality Service Task Collection Variable"
@@ -38,6 +41,7 @@
             </multiInstanceLoopCharacteristics>
         </serviceTask>
 
+        <!--Log process variables-->
         <sequenceFlow sourceRef="cardinalityServiceTaskCollectionVariable" targetRef="logVariablesServiceTask"/>
         <serviceTask id="logVariablesServiceTask" name="Service Task Log Variables"
                      flowable:expression="${serviceTaskExpression.logProcessVariables(execution)}"/>
