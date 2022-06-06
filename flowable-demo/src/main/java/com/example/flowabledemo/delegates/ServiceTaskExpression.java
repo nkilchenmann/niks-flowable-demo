@@ -1,16 +1,21 @@
 package com.example.flowabledemo.delegates;
 
+import com.example.flowabledemo.models.OnboardingEligibilityCheckProcessModel;
+import com.example.flowabledemo.models.Partner;
+import com.example.flowabledemo.models.SimplePartnershipDomainModel;
+import com.example.flowabledemo.util.UtilServices;
+import liquibase.pro.packaged.R;
 import org.flowable.engine.RuntimeService;
 import org.flowable.engine.TaskService;
 import org.flowable.engine.delegate.BpmnError;
 import org.flowable.engine.delegate.DelegateExecution;
+import org.flowable.engine.impl.persistence.entity.ExecutionEntity;
 import org.flowable.engine.impl.persistence.entity.ExecutionEntityImpl;
+import org.flowable.engine.runtime.Execution;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ServiceTaskExpression {
     @Autowired
@@ -100,5 +105,52 @@ public class ServiceTaskExpression {
 
     public void evaluateString(ExecutionEntityImpl execution, String testString) {
         System.out.println(testString);
+    }
+
+    public OnboardingEligibilityCheckProcessModel mapToSubprocessModel(ExecutionEntityImpl execution) {
+
+        // partner list
+        List<Partner> partnerList = ((SimplePartnershipDomainModel) execution.getVariable("simplePartnershipDomainModel")).getLinkedPartners();
+
+        OnboardingEligibilityCheckProcessModel onboardingEligibilityCheckProcessModel =
+                new OnboardingEligibilityCheckProcessModel(partnerList);
+
+        return onboardingEligibilityCheckProcessModel;
+    }
+
+    public void mapDomainModelToSubprocessModel(ExecutionEntityImpl execution) {
+        List<Partner> partnerList = ((SimplePartnershipDomainModel) execution.getVariable("simplePartnershipDomainModel")).getLinkedPartners();
+        OnboardingEligibilityCheckProcessModel onboardingEligibilityCheckProcessModel =
+                new OnboardingEligibilityCheckProcessModel(partnerList);
+        execution.setVariable("onboardingEligibilityCheckProcessModel", onboardingEligibilityCheckProcessModel);
+    }
+
+    public void executeDropoutCheckInheritedVariables(ExecutionEntityImpl execution) {
+        Partner partner = ((Partner) execution.getVariable("partner"));
+        if (partner.getExecuteDropoutCheck()) {
+            System.out.println("Executing Dropout Check for: " + partner.getFirstName() + " " + partner.getLastName());
+            partner.setDropoutCheckStatus(UtilServices.getDropoutOrCosimaResult());
+        } else {
+            System.out.println("NOT Executing Dropout Check for: " + partner.getFirstName() + " " + partner.getLastName());
+        }
+    }
+
+    public void executeCosimaCheckInheritedVariables(ExecutionEntityImpl execution) {
+        Partner partner = ((Partner) execution.getVariable("partner"));
+        if (partner.getExecuteCosimaCheck()) {
+            System.out.println("Executing Cosima Check for: " + partner.getFirstName() + " " + partner.getLastName());
+            partner.setCosimaCheckStatus(UtilServices.getDropoutOrCosimaResult());
+        } else {
+            System.out.println("NOT Executing Cosima Check for: " + partner.getFirstName() + " " + partner.getLastName());
+        }
+    }
+
+    public List<Partner> getMultiInstanceCollectionVariableInheritedVariables(ExecutionEntityImpl execution) {
+        List<Partner> partnerList = ((SimplePartnershipDomainModel) execution.getVariable("simplePartnershipDomainModel")).getLinkedPartners();
+        return partnerList;
+    }
+
+    public void logDropoutCosimaProcessVariables(ExecutionEntityImpl execution) {
+        System.out.println(((SimplePartnershipDomainModel) execution.getVariable("simplePartnershipDomainModel")));
     }
 }

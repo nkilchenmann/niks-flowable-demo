@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions
+        xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+        xmlns:flowable="http://flowable.org/bpmn"
+        targetNamespace="Examples">
+    <process id="inputOutputVariablesProcess" name="Input Output Variables Process"
+             isExecutable="true">
+
+        <startEvent id="startEvent"/>
+
+        <!--Map domain model into Subprocess model-->
+
+        <!--Map subprocess model back to domain model-->
+
+        <!--Call activity to onboardingEligibilityCheck-->
+        <sequenceFlow sourceRef="startEvent" targetRef="callActivity"/>
+        <callActivity id="callActivity" name="Call Activity"
+                      calledElement="inputOutputVariablesMultiPartnerOnboardingEligibilityCheckProcessInputOutputVariables">
+            <extensionElements>
+                <flowable:in source="partner"
+                             target="subprocessPartner"/><!--TODO: replace the source by an expression that fetches the linked partners from the onboardingEligiblityCheckDomainModel-->
+                <flowable:in source="onboardingEligibilityCheckProcessModel"
+                             target="subprocessOnboardingEligibilityCheckProcessModel"/>
+                <flowable:out source="subprocessOnboardingEligibilityCheckProcessModel"
+                              target="onboardingEligibilityCheckProcessModel"/>
+            </extensionElements>
+            <multiInstanceLoopCharacteristics isSequential="true" flowable:collection="partnerList"
+                                              flowable:elementVariable="partner"></multiInstanceLoopCharacteristics>
+        </callActivity>
+
+        <sequenceFlow sourceRef="callActivity" targetRef="dummyInterruptionST"/>
+        <serviceTask id="dummyInterruptionST" name="Dummy Interruption Service Task"
+                     flowable:expression="${simplePartnershipServiceTask.mapBack(execution)}">
+        </serviceTask>
+
+        <sequenceFlow sourceRef="dummyInterruptionST" targetRef="endEvent"/>
+        <endEvent id="endEvent"></endEvent>
+    </process>
+</definitions>

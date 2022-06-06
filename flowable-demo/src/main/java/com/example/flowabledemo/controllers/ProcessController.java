@@ -2,6 +2,9 @@ package com.example.flowabledemo.controllers;
 
 import com.example.flowabledemo.dtos.ProcessDTO;
 import com.example.flowabledemo.dtos.TaskDTO;
+import com.example.flowabledemo.models.OnboardingEligibilityCheckProcessModel;
+import com.example.flowabledemo.models.Partner;
+import com.example.flowabledemo.models.SimplePartnershipDomainModel;
 import org.flowable.engine.RuntimeService;
 import org.flowable.engine.TaskService;
 import org.flowable.engine.runtime.ProcessInstance;
@@ -75,6 +78,32 @@ public class ProcessController {
 
                 Map<String, Object> processVariables = new HashMap<>();
                 processVariables.put("mainProcessVariable", "Guten Abend");
+
+                ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processKey, processVariables);
+                ProcessDTO processDTO = new ProcessDTO(processInstance.getProcessInstanceId());
+                return processDTO;
+            }
+
+            case "inheritedVariablesProcess":
+            case "inputOutputVariablesProcess": {
+                System.out.println("Starting a " + processKey + " process");
+
+                Partner partner1 = new Partner("Nicolas", "Kilchenmann", 29, false, true);
+                Partner partner2 = new Partner("Christine", "Albornoz", 26, true, false);
+
+                List<Partner> partnerList = new ArrayList<>();
+                partnerList.add(partner1);
+                partnerList.add(partner2);
+
+                SimplePartnershipDomainModel simplePartnershipDomainModel = new SimplePartnershipDomainModel(partnerList);
+
+                Map<String, Object> processVariables = new HashMap<>();
+                processVariables.put("simplePartnershipDomainModel", simplePartnershipDomainModel);
+                processVariables.put("partnerList", partnerList);
+
+                OnboardingEligibilityCheckProcessModel onboardingEligibilityCheckProcessModel =
+                        new OnboardingEligibilityCheckProcessModel(partnerList);
+                processVariables.put("onboardingEligibilityCheckProcessModel", onboardingEligibilityCheckProcessModel);
 
                 ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processKey, processVariables);
                 ProcessDTO processDTO = new ProcessDTO(processInstance.getProcessInstanceId());

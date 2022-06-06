@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions
+        xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+        xmlns:flowable="http://flowable.org/bpmn"
+        targetNamespace="Examples">
+
+    <process id="inheritedVariablesMultiPartnerOnboardingEligibilityCheckProcessInheritedVariables"
+             name="Inherited Variables Multi Partner Onboarding Eligibility Check Process">
+        <startEvent id="dummySubprocessStartEvent"/>
+
+        <sequenceFlow sourceRef="dummySubprocessStartEvent" targetRef="dropoutCheck"/>
+        <serviceTask id="dropoutCheck" name="Dropout Check"
+                     flowable:expression="${serviceTaskExpression.executeDropoutCheckInheritedVariables(execution)}">
+            <multiInstanceLoopCharacteristics isSequential="true"
+                                              flowable:collection="${serviceTaskExpression.getMultiInstanceCollectionVariableInheritedVariables(execution)}"
+                                              flowable:elementVariable="partner">
+            </multiInstanceLoopCharacteristics>
+        </serviceTask>
+
+        <sequenceFlow sourceRef="dropoutCheck" targetRef="cosimaCheck"/>
+        <serviceTask id="cosimaCheck" name="Cosima Check"
+                     flowable:expression="${serviceTaskExpression.executeCosimaCheckInheritedVariables(execution)}">
+            <multiInstanceLoopCharacteristics isSequential="true"
+                                  flowable:collection="${serviceTaskExpression.getMultiInstanceCollectionVariableInheritedVariables(execution)}"
+                                  flowable:elementVariable="partner">
+            </multiInstanceLoopCharacteristics>
+        </serviceTask>
+
+        <sequenceFlow sourceRef="cosimaCheck" targetRef="dummySubprocessEndEvent"/>
+        <endEvent id="dummySubprocessEndEvent"/>
+
+    </process>
+</definitions>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions
+        xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+        xmlns:flowable="http://flowable.org/bpmn"
+        targetNamespace="Examples">
+
+    <process id="inputOutputVariablesMultiPartnerOnboardingEligibilityCheckProcessInputOutputVariables"
+             name="Input Output Variables Multi Partner Onboarding Eligibility Check Process">
+        <startEvent id="startEvent"/>
+
+        <sequenceFlow sourceRef="startEvent" targetRef="dropoutCheck"/>
+        <serviceTask id="dropoutCheck" name="Dropout Check"
+                     flowable:expression="${simplePartnershipServiceTask.executeDropoutCheckInputOutputVariables(execution)}">
+        </serviceTask>
+
+        <sequenceFlow sourceRef="dropoutCheck" targetRef="cosimaCheck"/>
+        <serviceTask id="cosimaCheck" name="Cosima Check"
+                     flowable:expression="${simplePartnershipServiceTask.executeCosimaCheckInputOutputVariables(execution)}">
+        </serviceTask>
+
+        <sequenceFlow sourceRef="cosimaCheck" targetRef="endEvent"/>
+        <endEvent id="endEvent"/>
+
+    </process>
+</definitions>

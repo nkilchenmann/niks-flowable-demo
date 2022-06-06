@@ -302,6 +302,80 @@
 			"response": []
 		},
 		{
+			"name": "09 - Start process (inheritedVariablesProcess)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"var processInstanceId = jsonData.processInstanceId;\r",
+							"\r",
+							"pm.environment.set(\"processInstanceId\",processInstanceId);\r",
+							"\r",
+							"console.log(\"processInstanceId: \" + processInstanceId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8888/process/inheritedVariablesProcess",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"process",
+						"inheritedVariablesProcess"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "10 - Start process (inputOutputVariablesProcess)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"var processInstanceId = jsonData.processInstanceId;\r",
+							"\r",
+							"pm.environment.set(\"processInstanceId\",processInstanceId);\r",
+							"\r",
+							"console.log(\"processInstanceId: \" + processInstanceId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8888/process/inputOutputVariablesProcess",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"process",
+						"inputOutputVariablesProcess"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get active tasks",
 			"event": [
 				{
