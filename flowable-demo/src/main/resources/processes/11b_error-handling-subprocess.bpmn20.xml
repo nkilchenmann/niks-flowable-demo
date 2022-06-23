@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions
+        xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+        xmlns:flowable="http://flowable.org/bpmn"
+        targetNamespace="Examples">
+    <process id="errorHandlingSubprocess" name="Error Handling Main Process"
+             isExecutable="true">
+        <startEvent id="startEvent"/>
+
+        <sequenceFlow sourceRef="startEvent" targetRef="throwBPMNErrorServiceTask"/>
+        <serviceTask id="throwBPMNErrorServiceTask" name="Throw BPMN Error Service Task"
+                     flowable:expression="${serviceTaskExpression.throwBPMNError(88888)}"/>
+
+        <sequenceFlow sourceRef="throwBPMNErrorServiceTask" targetRef="endEvent"/>
+        <endEvent id="endEvent"/>
+    </process>
+</definitions>

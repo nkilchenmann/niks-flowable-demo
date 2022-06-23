@@ -1,5 +1,6 @@
 package com.example.flowabledemo.delegates;
 
+import com.example.flowabledemo.ErrorCodes;
 import com.example.flowabledemo.models.OnboardingEligibilityCheckProcessModel;
 import com.example.flowabledemo.models.Partner;
 import com.example.flowabledemo.models.SimplePartnershipDomainModel;
@@ -36,6 +37,12 @@ public class ServiceTaskExpression {
     public void throwError() {
         System.out.println("Mocking Error");
         throw new BpmnError("99999", "Something went wrong");
+    }
+
+    public void throwBPMNError(String errorCode) {
+        System.out.println("Throwing BPMN error: " + errorCode);
+        //TODO: improvement to error codes (make dynamic)
+        throw new BpmnError(errorCode, ErrorCodes.ERROR_88888.getErrorMessage());
     }
 
     public void timeout() {
@@ -153,4 +160,9 @@ public class ServiceTaskExpression {
     public void logDropoutCosimaProcessVariables(ExecutionEntityImpl execution) {
         System.out.println(((SimplePartnershipDomainModel) execution.getVariable("simplePartnershipDomainModel")));
     }
+
+    public void logError() {
+        System.out.println("AN ERROR HAS BEEN DETECTED - TERMINATING THE PROCESS");
+    }
+
 }

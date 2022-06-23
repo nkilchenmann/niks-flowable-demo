@@ -36,7 +36,9 @@ public class ProcessController {
             case "userTaskServiceTaskProcess":
             case "errorServiceTaskProcess":
             case "callActivityProcess":
-            case "uelExperimentalProcess": {
+            case "uelExperimentalProcess":
+
+            case "errorHandlingMainProcess": {
                 System.out.println("Starting a " + processKey + " process");
                 ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processKey);
                 ProcessDTO processDTO = new ProcessDTO(processInstance.getProcessInstanceId());
@@ -109,7 +111,6 @@ public class ProcessController {
                 ProcessDTO processDTO = new ProcessDTO(processInstance.getProcessInstanceId());
                 return processDTO;
             }
-
             default: {
                 System.out.println("Not starting any process");
                 return null;

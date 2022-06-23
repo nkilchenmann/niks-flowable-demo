@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions
+        xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+        xmlns:flowable="http://flowable.org/bpmn"
+        targetNamespace="Examples">
+    <process id="errorHandlingMainProcess" name="Error Handling Main Process"
+             isExecutable="true">
+        <startEvent id="startEvent"/>
+
+        <sequenceFlow sourceRef="startEvent" targetRef="userTask"/>
+        <userTask id="userTask" name="Usertask"/>
+
+        <sequenceFlow sourceRef="userTask" targetRef="callActivity"/>
+        <callActivity id="callActivity" name="Call Activity"
+                      calledElement="errorHandlingSubprocess">
+        </callActivity>
+        <boundaryEvent id="boundaryErrorEvent" attachedToRef="callActivity">
+            <errorEventDefinition errorRef="mockedError"/>
+        </boundaryEvent>
+
+        <sequenceFlow sourceRef="boundaryErrorEvent" targetRef="serviceTask"/>
+        <serviceTask id="serviceTask" name="Service Task"
+                     flowable:expression="${serviceTaskExpression.logError()}"/>
+
+        <sequenceFlow sourceRef="serviceTask" targetRef="endEvent"/>
+        <sequenceFlow sourceRef="callActivity" targetRef="endEvent"/>
+        <endEvent id="endEvent"/>
+    </process>
+    <error id="mockedError" errorCode="88888"/>
+</definitions>
